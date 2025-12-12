@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AQI Result</title>
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #dfe9f3, #ffffff);
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+        }
+
+        .result-card {
+            max-width: 550px;
+            margin: auto;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+            animation: fadeIn 0.8s ease;
+        }
+
+        .aqi-value {
+            font-size: 70px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: popIn 0.4s ease;
+        }
+
+        .category {
+            font-size: 20px;
+            padding: 8px 15px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-bottom: 20px;
+            color: white;
+            font-weight: 500;
+        }
+
+        /* Marquee container */
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        /* Marquee text */
+        .marquee-text {
+            display: inline-block;
+            white-space: nowrap;
+            color: #0077cc;
+            font-size: 28px;
+            font-weight: 600;
+            padding-left: 100%;
+            animation: scroll-left 5s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        button, .btn {
+            padding: 10px 25px;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.6); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="result-card text-center">
+
+        <!-- Marquee Title -->
+        <div class="marquee">
+            <div class="marquee-text">Predict Air Quality Index (AQI)</div>
+        </div>
+
+        <!-- AQI Value -->
+        <div class="aqi-value" style="color: #0077cc;">
+            {{ prediction }}
+        </div>
+
+        <!-- AQI Category (Dynamic color via Flask) -->
+        {% set c = prediction %}
+        {% if c <= 50 %}
+            <div class="category" style="background:#4CAF50;">Good</div>
+        {% elif c <= 100 %}
+            <div class="category" style="background:#FFEB3B; color:black;">Moderate</div>
+        {% elif c <= 150 %}
+            <div class="category" style="background:#FF9800;">Unhealthy for Sensitive Groups</div>
+        {% elif c <= 200 %}
+            <div class="category" style="background:#f44336;">Unhealthy</div>
+        {% elif c <= 300 %}
+            <div class="category" style="background:#9C27B0;">Very Unhealthy</div>
+        {% else %}
+            <div class="category" style="background:#6A1B9A;">Hazardous</div>
+        {% endif %}
+
+        <br><br>
+
+        <!-- Button -->
+        <a href="/" class="btn btn-primary">Predict Again</a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AQI Prediction</title>
+
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #dfe9f3, #ffffff);
+            font-family: 'Segoe UI', sans-serif;
+            padding: 40px;
+        }
+
+        .form-card {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.8s ease;
+        }
+
+        /* Modern marquee effect */
+        .marquee {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            box-sizing: border-box;
+            margin-bottom: 25px;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            padding-left: 100%;
+            font-size: 28px;
+            font-weight: 600;
+            color: #0077cc;
+            animation: scroll-left 10s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            border-radius: 8px !important;
+            padding: 10px !important;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 14px 20px;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+
+        .error {
+            color: #a30000;
+            background: #ffd8d8;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            border-left: 5px solid red;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+
+</head>
+<body>
+
+    <div class="form-card">
+
+        <!-- Marquee Title -->
+        <div class="marquee">
+            <div class="marquee-text">Predict Air Quality Index (AQI)</div>
+        </div>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+
+            <div class="row">
+                {% for feature in features %}
+                <div class="col-md-6 mb-3">
+                    <label>{{ feature }}</label>
+                    <input type="number" step="any" class="form-control" 
+                           name="{{ feature }}" placeholder="Enter {{ feature }}">
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                Predict AQI
+            </button>
+
+        </form>
+    </div>
+
+</body>
+</html>
